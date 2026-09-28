@@ -29,7 +29,7 @@ def test_search_nearby():
         "eat_it.clients.google_places_client.httpx.post",
         return_value=mock_response,
     ) as mock_post:
-        client = GooglePlacesClient("test-api-key")
+        client = GooglePlacesClient()
 
         result = client.search_nearby(
             latitude=49.8397,

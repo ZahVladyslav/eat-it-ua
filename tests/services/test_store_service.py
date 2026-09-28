@@ -1,3 +1,5 @@
+from unittest.mock import Mock
+
 from eat_it.models.store import Store
 from eat_it.services.store_service import StoreService
 
@@ -118,3 +120,48 @@ def test_empty_store_city():
         assert False
     except ValueError:
         assert True
+
+def test_search_nearby_stores():
+    service = StoreService()
+
+    service.google_places_client = Mock()
+
+    service.google_places_client.search_nearby.return_value = {
+    "places": [
+        {
+            "id": "place_123",
+            "displayName": {
+                "text": "АТБ-Маркет",
+            },
+            "formattedAddress": "Львів, вул. Тестова, 1",
+            "location": {
+                "latitude": 49.8397,
+                "longitude": 24.0297,
+            },
+            "primaryType": "supermarket",
+        }
+        ]
+    }
+
+    stores = service.search_nearby_stores(
+        latitude=49.8397,
+        longitude=24.0297,
+    )
+
+    assert len(stores) == 1
+
+    store = stores[0]
+
+    assert isinstance(store, Store)
+    assert store.name == "АТБ-Маркет"
+    assert store.address == "Львів, вул. Тестова, 1"
+    assert store.latitude == 49.8397
+    assert store.longitude == 24.0297
+    assert store.source == "google_places"
+    assert store.external_id == "place_123"
+
+    service.google_places_client.search_nearby.assert_called_once_with(
+        latitude=49.8397,
+        longitude=24.0297,
+        radius=1000,
+    )

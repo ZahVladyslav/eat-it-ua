@@ -14,6 +14,7 @@ class StoreRepository:
         longitude: float,
         source: str,
         external_id: str,
+        store_type: str | None = None,
     ):
         with get_connection() as connection:
             cursor = connection.execute(
@@ -21,6 +22,7 @@ class StoreRepository:
                 INSERT INTO stores (
                     name,
                     chain,
+                    store_type,
                     address,
                     city,
                     latitude,
@@ -28,11 +30,12 @@ class StoreRepository:
                     source,
                     external_id
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     name,
                     chain,
+                    store_type,
                     address,
                     city,
                     latitude,
@@ -52,6 +55,7 @@ class StoreRepository:
                     id,
                     name,
                     chain,
+                    store_type,
                     address,
                     city,
                     latitude,
@@ -74,13 +78,14 @@ class StoreRepository:
                 id=row[0],
                 name=row[1],
                 chain=row[2],
-                address=row[3],
-                city=row[4],
-                latitude=row[5],
-                longitude=row[6],
-                source=row[7],
-                external_id=row[8],
-                created_at=row[9],
+                store_type=row[3],
+                address=row[4],
+                city=row[5],
+                latitude=row[6],
+                longitude=row[7],
+                source=row[8],
+                external_id=row[9],
+                created_at=row[10],
             )
 
     def get_by_external_id(self, external_id: str):
@@ -91,6 +96,7 @@ class StoreRepository:
                     id,
                     name,
                     chain,
+                    store_type,
                     address,
                     city,
                     latitude,
@@ -113,13 +119,14 @@ class StoreRepository:
                 id=row[0],
                 name=row[1],
                 chain=row[2],
-                address=row[3],
-                city=row[4],
-                latitude=row[5],
-                longitude=row[6],
-                source=row[7],
-                external_id=row[8],
-                created_at=row[9],
+                store_type=row[3],
+                address=row[4],
+                city=row[5],
+                latitude=row[6],
+                longitude=row[7],
+                source=row[8],
+                external_id=row[9],
+                created_at=row[10],
             )
 
     def get_all(self):
@@ -130,6 +137,7 @@ class StoreRepository:
                     id,
                     name,
                     chain,
+                    store_type,
                     address,
                     city,
                     latitude,
@@ -149,13 +157,14 @@ class StoreRepository:
                     id=row[0],
                     name=row[1],
                     chain=row[2],
-                    address=row[3],
-                    city=row[4],
-                    latitude=row[5],
-                    longitude=row[6],
-                    source=row[7],
-                    external_id=row[8],
-                    created_at=row[9],
+                    store_type=row[3],
+                    address=row[4],
+                    city=row[5],
+                    latitude=row[6],
+                    longitude=row[7],
+                    source=row[8],
+                    external_id=row[9],
+                    created_at=row[10],
                 )
                 for row in rows
             ]

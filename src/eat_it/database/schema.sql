@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS stores (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     chain TEXT,
+    store_type TEXT,
     address TEXT,
     city TEXT,
     latitude REAL NOT NULL,

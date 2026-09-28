@@ -1,12 +1,23 @@
+import os
+
 import httpx
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 class GooglePlacesClient:
 
     URL = "https://places.googleapis.com/v1/places:searchNearby"
 
-    def __init__(self, api_key: str):
-        self.api_key = api_key
+    def __init__(self):
+        self.api_key = os.getenv("GOOGLE_PLACES_API_KEY")
+
+        if not self.api_key:
+            raise ValueError(
+                "GOOGLE_PLACES_API_KEY is not set"
+            )
 
     def search_nearby(
         self,

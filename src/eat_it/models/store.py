@@ -13,3 +13,4 @@ class Store:
     source: str | None
     external_id: str | None
     created_at: str | None = None
+    store_type: str | None = None
