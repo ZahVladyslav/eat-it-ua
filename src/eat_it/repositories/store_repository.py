@@ -1,4 +1,5 @@
 from eat_it.database.database import get_connection
+from eat_it.models.store import Store
 
 
 class StoreRepository:
@@ -64,7 +65,23 @@ class StoreRepository:
                 (store_id,),
             )
 
-            return cursor.fetchone()
+            row = cursor.fetchone()
+
+            if row is None:
+                return None
+
+            return Store(
+                id=row[0],
+                name=row[1],
+                chain=row[2],
+                address=row[3],
+                city=row[4],
+                latitude=row[5],
+                longitude=row[6],
+                source=row[7],
+                external_id=row[8],
+                created_at=row[9],
+            )
 
     def get_by_external_id(self, external_id: str):
         with get_connection() as connection:
@@ -87,7 +104,23 @@ class StoreRepository:
                 (external_id,),
             )
 
-            return cursor.fetchone()
+            row = cursor.fetchone()
+
+            if row is None:
+                return None
+
+            return Store(
+                id=row[0],
+                name=row[1],
+                chain=row[2],
+                address=row[3],
+                city=row[4],
+                latitude=row[5],
+                longitude=row[6],
+                source=row[7],
+                external_id=row[8],
+                created_at=row[9],
+            )
 
     def get_all(self):
         with get_connection() as connection:
@@ -109,4 +142,20 @@ class StoreRepository:
                 """
             )
 
-            return cursor.fetchall()
+            rows = cursor.fetchall()
+
+            return [
+                Store(
+                    id=row[0],
+                    name=row[1],
+                    chain=row[2],
+                    address=row[3],
+                    city=row[4],
+                    latitude=row[5],
+                    longitude=row[6],
+                    source=row[7],
+                    external_id=row[8],
+                    created_at=row[9],
+                )
+                for row in rows
+            ]

@@ -1,4 +1,5 @@
 from eat_it.database.database import get_connection
+from eat_it.models.location import Location
 
 
 class LocationRepository:
@@ -52,7 +53,20 @@ class LocationRepository:
                 (location_id,),
             )
 
-            return cursor.fetchone()
+            row = cursor.fetchone()
+
+            if row is None:
+                return None
+
+            return Location(
+                id=row[0],
+                postal_code=row[1],
+                city=row[2],
+                address=row[3],
+                latitude=row[4],
+                longitude=row[5],
+                created_at=row[6],
+            )
 
     def get_by_postal_code(self, postal_code: str):
         with get_connection() as connection:
@@ -72,4 +86,17 @@ class LocationRepository:
                 (postal_code,),
             )
 
-            return cursor.fetchone()
+            row = cursor.fetchone()
+
+            if row is None:
+                return None
+
+            return Location(
+                id=row[0],
+                postal_code=row[1],
+                city=row[2],
+                address=row[3],
+                latitude=row[4],
+                longitude=row[5],
+                created_at=row[6],
+            )

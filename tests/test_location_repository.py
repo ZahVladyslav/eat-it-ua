@@ -1,3 +1,4 @@
+from eat_it.models.location import Location
 from eat_it.repositories.location_repository import LocationRepository
 
 
@@ -28,6 +29,7 @@ def test_get_location_by_id():
 
     location = repository.get_by_id(location_id)
 
-    assert location is not None
-    assert location[1] == "79001"
-    assert location[2] == "Львів"
+    assert isinstance(location, Location)
+    assert location.postal_code == "79001"
+    assert location.city == "Львів"
+    assert location.latitude == 49.8429

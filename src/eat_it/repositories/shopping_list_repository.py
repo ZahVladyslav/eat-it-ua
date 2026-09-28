@@ -1,4 +1,5 @@
 from eat_it.database.database import get_connection
+from eat_it.models.shopping_list import ShoppingList
 
 
 class ShoppingListRepository:
@@ -45,7 +46,19 @@ class ShoppingListRepository:
                 (shopping_list_id,),
             )
 
-            return cursor.fetchone()
+            row = cursor.fetchone()
+
+            if row is None:
+                return None
+
+            return ShoppingList(
+                id=row[0],
+                name=row[1],
+                location_id=row[2],
+                budget=row[3],
+                created_at=row[4],
+                updated_at=row[5],
+            )
 
     def get_all(self):
         with get_connection() as connection:
@@ -63,7 +76,19 @@ class ShoppingListRepository:
                 """
             )
 
-            return cursor.fetchall()
+            rows = cursor.fetchall()
+
+            return [
+                ShoppingList(
+                    id=row[0],
+                    name=row[1],
+                    location_id=row[2],
+                    budget=row[3],
+                    created_at=row[4],
+                    updated_at=row[5],
+                )
+                for row in rows
+            ]
 
     def delete(self, shopping_list_id: int):
         with get_connection() as connection:
