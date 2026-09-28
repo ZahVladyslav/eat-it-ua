@@ -6,26 +6,23 @@ class LocationRepository:
 
     def create(
         self,
-        postal_code: str,
-        city: str,
-        address: str,
         latitude: float,
         longitude: float,
+        city: str | None = None,
+        address: str | None = None,
     ):
         with get_connection() as connection:
             cursor = connection.execute(
                 """
                 INSERT INTO locations (
-                    postal_code,
                     city,
                     address,
                     latitude,
                     longitude
                 )
-                VALUES (?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?)
                 """,
                 (
-                    postal_code,
                     city,
                     address,
                     latitude,
@@ -41,7 +38,6 @@ class LocationRepository:
                 """
                 SELECT
                     id,
-                    postal_code,
                     city,
                     address,
                     latitude,
@@ -60,43 +56,9 @@ class LocationRepository:
 
             return Location(
                 id=row[0],
-                postal_code=row[1],
-                city=row[2],
-                address=row[3],
-                latitude=row[4],
-                longitude=row[5],
-                created_at=row[6],
-            )
-
-    def get_by_postal_code(self, postal_code: str):
-        with get_connection() as connection:
-            cursor = connection.execute(
-                """
-                SELECT
-                    id,
-                    postal_code,
-                    city,
-                    address,
-                    latitude,
-                    longitude,
-                    created_at
-                FROM locations
-                WHERE postal_code = ?
-                """,
-                (postal_code,),
-            )
-
-            row = cursor.fetchone()
-
-            if row is None:
-                return None
-
-            return Location(
-                id=row[0],
-                postal_code=row[1],
-                city=row[2],
-                address=row[3],
-                latitude=row[4],
-                longitude=row[5],
-                created_at=row[6],
+                city=row[1],
+                address=row[2],
+                latitude=row[3],
+                longitude=row[4],
+                created_at=row[5],
             )

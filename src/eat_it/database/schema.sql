@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS locations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    postal_code TEXT NOT NULL,
     city TEXT,
     address TEXT,
     latitude REAL NOT NULL,

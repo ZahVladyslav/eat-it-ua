@@ -1,11 +1,10 @@
-from eat_it.models.location import Location
-from eat_it.repositories.location_repository import LocationRepository
+from eat_it.services.location_service import LocationService
 
 
 def test_create_location(test_database):
-    repository = LocationRepository()
+    service = LocationService()
 
-    location_id = repository.create(
+    location_id = service.create_location(
         latitude=49.8397,
         longitude=24.0297,
         city="Львів",
@@ -16,18 +15,18 @@ def test_create_location(test_database):
 
 
 def test_get_location_by_id(test_database):
-    repository = LocationRepository()
+    service = LocationService()
 
-    location_id = repository.create(
+    location_id = service.create_location(
         latitude=49.8397,
         longitude=24.0297,
         city="Львів",
         address="площа Ринок",
     )
 
-    location = repository.get_by_id(location_id)
+    location = service.get_location_by_id(location_id)
 
-    assert isinstance(location, Location)
+    assert location is not None
     assert location.id == location_id
     assert location.city == "Львів"
     assert location.address == "площа Ринок"
