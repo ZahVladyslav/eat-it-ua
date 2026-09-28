@@ -1,5 +1,7 @@
 import httpx
 
+from eat_it.models.location import Location
+
 
 class GeolocationClient:
 
@@ -13,9 +15,10 @@ class GeolocationClient:
 
         data = response.json()
 
-        return {
-            "latitude": float(data["latitude"]),
-            "longitude": float(data["longitude"]),
-            "city": data.get("city"),
-            "address": None,
-        }
+        return Location(
+            id=None,
+            latitude=float(data["latitude"]),
+            longitude=float(data["longitude"]),
+            city=data.get("city"),
+            address=None,
+        )

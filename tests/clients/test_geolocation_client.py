@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
 from eat_it.clients.geolocation_client import GeolocationClient
+from eat_it.models.location import Location
 
 
 def test_get_location():
@@ -22,6 +23,8 @@ def test_get_location():
 
         location = client.get_location()
 
-    assert location["latitude"] == 49.8397
-    assert location["longitude"] == 24.0297
-    assert location["city"] == "Lviv"
+    assert isinstance(location, Location)
+    assert location.latitude == 49.8397
+    assert location.longitude == 24.0297
+    assert location.city == "Lviv"
+    assert location.address is None

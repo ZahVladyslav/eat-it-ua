@@ -1,6 +1,6 @@
 from eat_it.services.location_service import LocationService
 from unittest.mock import Mock
-
+from eat_it.models.location import Location
 
 
 def test_get_current_location():
@@ -8,18 +8,21 @@ def test_get_current_location():
 
     service.geolocation_client = Mock()
 
-    service.geolocation_client.get_location.return_value = {
-        "latitude": 49.8397,
-        "longitude": 24.0297,
-        "city": "Lviv",
-        "address": None,
-    }
+    service.geolocation_client.get_location.return_value = Location(
+        id=None,
+        latitude=49.8397,
+        longitude=24.0297,
+        city="Lviv",
+        address=None,
+    )
 
     location = service.get_current_location()
 
-    assert location["latitude"] == 49.8397
-    assert location["longitude"] == 24.0297
-    assert location["city"] == "Lviv"
+    assert isinstance(location, Location)
+    assert location.latitude == 49.8397
+    assert location.longitude == 24.0297
+    assert location.city == "Lviv"
+    assert location.address is None
 
 def test_create_location(test_database):
     service = LocationService()
