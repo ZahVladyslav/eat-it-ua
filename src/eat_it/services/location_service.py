@@ -1,3 +1,4 @@
+from eat_it.clients.geolocation_client import GeolocationClient
 from eat_it.repositories.location_repository import LocationRepository
 
 
@@ -5,6 +6,7 @@ class LocationService:
 
     def __init__(self):
         self.repository = LocationRepository()
+        self.geolocation_client = GeolocationClient()
 
     def create_location(
         self,
@@ -22,3 +24,6 @@ class LocationService:
 
     def get_location_by_id(self, location_id: int):
         return self.repository.get_by_id(location_id)
+
+    def get_current_location(self):
+        return self.geolocation_client.get_location()
